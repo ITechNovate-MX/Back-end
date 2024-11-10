@@ -1,5 +1,6 @@
 package com.ITechNovate.asr_backend.dto;
 
+import com.ITechNovate.asr_backend.models_sql.Usuario.Rol;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,8 +11,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UsuarioDTO {
-    Integer id;
-    String email;
-    String password;
-    String rol;
+    private String correo;
+    private String contrasena;
+    private Rol rol;
 }
