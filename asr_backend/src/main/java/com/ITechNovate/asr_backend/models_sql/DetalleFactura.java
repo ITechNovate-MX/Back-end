@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 import java.util.Date;
 
 @Entity
-@Table(name = "detalle_factura")
+@Table(name = "detallefactura")
 @Data// Anotacion de Lombok para generar los Getters y Setters y otros métodos automáticamente
 @NoArgsConstructor
 @AllArgsConstructor

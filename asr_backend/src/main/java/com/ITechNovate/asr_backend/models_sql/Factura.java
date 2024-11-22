@@ -15,8 +15,6 @@ import java.util.List;
 @Table(name = "factura")
 public class Factura {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     @Column(name = "folio")
     private Integer folio;
 
@@ -29,26 +27,8 @@ public class Factura {
     @Column(name= "orden_compra", length = 50)
     private String ordenCompra;
 
-    @Column(name= "no_parte", length = 50)
-    private String noParte;
-
-    @Column(name= "descripcion", length = 200)
-    private String descripcion;
-
-    @Column(name= "cantidad", precision = 10, scale = 2, nullable = false)
-    private BigDecimal cantidad;
-
-    @Column(name= "precio_unitario", precision = 10, scale = 6, nullable = false)
-    private BigDecimal precioUnitario;
-
-    @Column(name = "importe", precision = 10, scale = 2)
-    private BigDecimal importe;
-
     @Column(name = "subtotal", precision = 10, scale = 2, nullable = false)
     private BigDecimal subtotal;
-
-    @Column(name = "iva", precision = 10, scale = 2)
-    private BigDecimal iva;
 
     @Column(name = "total", precision = 10, scale = 3, nullable = false)
     private BigDecimal total;

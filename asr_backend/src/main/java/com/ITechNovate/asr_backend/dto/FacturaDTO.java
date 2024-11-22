@@ -15,16 +15,11 @@ public class FacturaDTO {
     Integer folio;
     String cliente;
     String ordenCompra;
-    String noParte;
-    String descripcion;
-    BigDecimal cantidad;
-    BigDecimal precioUnitario;
     BigDecimal subtotal;
-    BigDecimal ival;
     BigDecimal total;
     String metodoPago;
     String archivoXml; // Nombre del archivo XML que el admin sube
 
-    public FacturaDTO(Integer folio, String cliente, BigDecimal cantidad, BigDecimal total, String archivoXml) {
+    public FacturaDTO(Integer folio, String cliente, BigDecimal subtotal, BigDecimal total, String archivoXml) {
     }
 }
