@@ -88,7 +88,7 @@ public class FacturaService {
 
                 String descripcion = conceptoElement.getAttribute("Descripcion");
                 if (descripcion != null && !descripcion.isEmpty()) {
-// Buscar el índice de "ORDEN DE COMPRA"
+                    // Buscar el índice de "ORDEN DE COMPRA"
                     int indexOrden = descripcion.indexOf("ORDEN DE COMPRA");
                     if (indexOrden != -1) {
                         // Extraer desde "ORDEN DE COMPRA" hasta el final de la cadena
@@ -119,7 +119,7 @@ public class FacturaService {
                 System.out.println("Factura nueva guardada con ID: " + factura.getFolio());
             }
 
-            // Guardar los materiales asociados
+            // Guardar los materiales asociados solo si no existen
             for (int i = 0; i < conceptoList.getLength(); i++) {
                 Element conceptoElement = (Element) conceptoList.item(i);
 
@@ -145,7 +145,6 @@ public class FacturaService {
                     }
                 }
                 material.setNoParte(noParte);
-
                 material.setDescripcion(descripcion);
                 material.setCantidad(new BigDecimal(conceptoElement.getAttribute("Cantidad")));
                 material.setPrecioUnitario(new BigDecimal(conceptoElement.getAttribute("ValorUnitario")));
@@ -158,10 +157,16 @@ public class FacturaService {
                     material.setIva(new BigDecimal(impuestoElement.getAttribute("Importe")));
                 }
 
-                material.setFactura(factura);
-                materialRepository.save(material);
+                // Verificar si el material ya existe para esta factura
+                Optional<Material> existingMaterial = materialRepository.findByNoParteAndFactura(noParte, factura);
+                if (existingMaterial.isEmpty()) {
+                    material.setFactura(factura);
+                    materialRepository.save(material);
+                    System.out.println("Nuevo material guardado: " + noParte);
+                } else {
+                    System.out.println("Material ya existe para esta factura: " + noParte);
+                }
             }
-
 
             // Convertir a DTO y retornar
             return new FacturaDTO(factura.getFolio(), factura.getCliente(), factura.getOrdenCompra(),
@@ -173,6 +178,7 @@ public class FacturaService {
             throw new RuntimeException("Error al procesar el archivo XML", e);
         }
     }
+
 
 
 

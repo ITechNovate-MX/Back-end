@@ -44,4 +44,10 @@ public class Factura {
     private List<DetalleFactura> detalleFactura;
 
 
+    public Integer getId() {
+        return folio;
+    }
+
+    public void setId(Integer facturaId) {
+    }
 }
