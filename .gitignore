@@ -1,0 +1,52 @@
+# Ignorar binarios generados
+*.class
+*.exe
+*.dll
+*.so
+*.dylib
+*.o
+*.obj
+*.bin
+*.pyc
+*.pyo
+
+# Directorios comunes para binarios
+bin/
+build/
+target/
+out/
+dist/
+
+# Ignorar configuraciones del IDE
+.idea/
+*.iml
+.vscode/
+*.swp
+
+# Ignorar logs y bases de datos locales
+*.log
+*.db
+*.sqlite
+
+# Ignorar dependencias
+/node_modules/
+.DS_Store
+
+# Ignorar archivos empaquetados
+*.jar
+*.war
+*.ear
+
+# Ignorar configuraciones específicas de SO
+# MacOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Linux
+*~
