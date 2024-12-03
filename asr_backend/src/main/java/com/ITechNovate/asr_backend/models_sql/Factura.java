@@ -1,16 +1,10 @@
 package com.ITechNovate.asr_backend.models_sql;
-
-
 import jakarta.persistence.*;
-import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-@Data // Anotacion de Lombok para generar los Getters y Setters y otros métodos automáticamente
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @Table(name = "factura")
 public class Factura {
@@ -63,5 +57,144 @@ public class Factura {
     @OneToMany(mappedBy = "factura", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DetalleFactura> detalleFactura;
 
+    public Factura(Integer folio, Date fechaEmision, String cliente, String ordenCompra, String noParte, String descripcion, BigDecimal cantidad, BigDecimal precioUnitario, BigDecimal importe, BigDecimal subtotal, BigDecimal iva, BigDecimal total, String metodoPago, String archivoXml, List<DetalleFactura> detalleFactura) {
+        this.folio = folio;
+        this.fechaEmision = fechaEmision;
+        this.cliente = cliente;
+        this.ordenCompra = ordenCompra;
+        this.noParte = noParte;
+        this.descripcion = descripcion;
+        this.cantidad = cantidad;
+        this.precioUnitario = precioUnitario;
+        this.importe = importe;
+        this.subtotal = subtotal;
+        this.iva = iva;
+        this.total = total;
+        this.metodoPago = metodoPago;
+        this.archivoXml = archivoXml;
+        this.detalleFactura = detalleFactura;
+    }
 
+    public Factura() {
+    }
+
+    public Integer getFolio() {
+        return folio;
+    }
+
+    public void setFolio(Integer folio) {
+        this.folio = folio;
+    }
+
+    public Date getFechaEmision() {
+        return fechaEmision;
+    }
+
+    public void setFechaEmision(Date fechaEmision) {
+        this.fechaEmision = fechaEmision;
+    }
+
+    public String getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(String cliente) {
+        this.cliente = cliente;
+    }
+
+    public String getOrdenCompra() {
+        return ordenCompra;
+    }
+
+    public void setOrdenCompra(String ordenCompra) {
+        this.ordenCompra = ordenCompra;
+    }
+
+    public String getNoParte() {
+        return noParte;
+    }
+
+    public void setNoParte(String noParte) {
+        this.noParte = noParte;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public BigDecimal getCantidad() {
+        return cantidad;
+    }
+
+    public void setCantidad(BigDecimal cantidad) {
+        this.cantidad = cantidad;
+    }
+
+    public BigDecimal getPrecioUnitario() {
+        return precioUnitario;
+    }
+
+    public void setPrecioUnitario(BigDecimal precioUnitario) {
+        this.precioUnitario = precioUnitario;
+    }
+
+    public BigDecimal getImporte() {
+        return importe;
+    }
+
+    public void setImporte(BigDecimal importe) {
+        this.importe = importe;
+    }
+
+    public BigDecimal getSubtotal() {
+        return subtotal;
+    }
+
+    public void setSubtotal(BigDecimal subtotal) {
+        this.subtotal = subtotal;
+    }
+
+    public BigDecimal getIva() {
+        return iva;
+    }
+
+    public void setIva(BigDecimal iva) {
+        this.iva = iva;
+    }
+
+    public BigDecimal getTotal() {
+        return total;
+    }
+
+    public void setTotal(BigDecimal total) {
+        this.total = total;
+    }
+
+    public String getMetodoPago() {
+        return metodoPago;
+    }
+
+    public void setMetodoPago(String metodoPago) {
+        this.metodoPago = metodoPago;
+    }
+
+    public String getArchivoXml() {
+        return archivoXml;
+    }
+
+    public void setArchivoXml(String archivoXml) {
+        this.archivoXml = archivoXml;
+    }
+
+    public List<DetalleFactura> getDetalleFactura() {
+        return detalleFactura;
+    }
+
+    public void setDetalleFactura(List<DetalleFactura> detalleFactura) {
+        this.detalleFactura = detalleFactura;
+    }
 }

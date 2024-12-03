@@ -2,16 +2,10 @@ package com.ITechNovate.asr_backend.models_sql;
 
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 import java.util.Date;
 
 @Entity
 @Table(name = "detalle_factura")
-@Data// Anotacion de Lombok para generar los Getters y Setters y otros métodos automáticamente
-@NoArgsConstructor
-@AllArgsConstructor
 public class DetalleFactura {
 
     @Id
@@ -35,4 +29,54 @@ public class DetalleFactura {
     @JoinColumn(name = "factura_id", insertable = false, updatable = false)
     private Factura factura;
 
+    public DetalleFactura(Integer facturaId, Date fechaEntrega, Integer credito, Date fechaPortal, Factura factura) {
+        this.facturaId = facturaId;
+        this.fechaEntrega = fechaEntrega;
+        this.credito = credito;
+        this.fechaPortal = fechaPortal;
+        this.factura = factura;
+    }
+
+    public DetalleFactura() {
+    }
+
+    public Integer getFacturaId() {
+        return facturaId;
+    }
+
+    public void setFacturaId(Integer facturaId) {
+        this.facturaId = facturaId;
+    }
+
+    public Date getFechaEntrega() {
+        return fechaEntrega;
+    }
+
+    public void setFechaEntrega(Date fechaEntrega) {
+        this.fechaEntrega = fechaEntrega;
+    }
+
+    public Integer getCredito() {
+        return credito;
+    }
+
+    public void setCredito(Integer credito) {
+        this.credito = credito;
+    }
+
+    public Date getFechaPortal() {
+        return fechaPortal;
+    }
+
+    public void setFechaPortal(Date fechaPortal) {
+        this.fechaPortal = fechaPortal;
+    }
+
+    public Factura getFactura() {
+        return factura;
+    }
+
+    public void setFactura(Factura factura) {
+        this.factura = factura;
+    }
 }
