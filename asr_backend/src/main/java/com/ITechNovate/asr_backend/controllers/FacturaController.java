@@ -1,6 +1,10 @@
 package com.ITechNovate.asr_backend.controllers;
 
 import com.ITechNovate.asr_backend.dto.FacturaDTO;
+import com.ITechNovate.asr_backend.models_sql.Material;
+import com.ITechNovate.asr_backend.models_sql.Factura;
+import com.ITechNovate.asr_backend.repository.MaterialRepository;
+import com.ITechNovate.asr_backend.repository.FacturaRepository;
 import com.ITechNovate.asr_backend.service.FacturaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -14,14 +18,23 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/facturas")
 public class FacturaController {
 
     @Autowired
-   private FacturaService facturaService;
+    private FacturaService facturaService;
+
+    @Autowired
+    private MaterialRepository materialRepository;
+
+    @Autowired
+    private FacturaRepository facturaRepository;
 
     @Operation(summary = "Subir un archivo XML de factura y procesar sus datos",
             description = "Carga un archivo XML de factura, extrae los datos clave y los guarda en la base de datos.")
@@ -34,6 +47,7 @@ public class FacturaController {
             FacturaDTO facturaDTO = facturaService.saveFacturaFromXml(file);
             return ResponseEntity.ok(facturaDTO);
         } catch (Exception e) {
+            System.out.println("Error al procesar el archivo XML: " + e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
@@ -75,6 +89,28 @@ public class FacturaController {
             return ResponseEntity.ok(factura);
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    @Operation(summary = "Obtener todos los materiales asociados a una factura",
+            description = "Devuelve una lista de materiales asociados a una factura dado su folio.")
+    @ApiResponse(responseCode = "200", description = "Materiales devueltos con éxito",
+            content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Material.class))))
+    @ApiResponse(responseCode = "404", description = "Factura no encontrada")
+    @GetMapping("/{folio}/materiales")
+    public ResponseEntity<List<Material>> getMaterialsByFacturaFolio(@PathVariable("folio") Integer folio) {
+        // Buscar la factura por folio
+        Optional<Factura> facturaOptional = facturaRepository.findById(folio);
+
+        if (facturaOptional.isPresent()) {
+            // Si la factura existe, obtener sus materiales
+            Factura factura = facturaOptional.get();
+            List<Material> materiales = materialRepository.findByFactura(factura);
+            return ResponseEntity.ok(materiales);
+        } else {
+            // Si no se encuentra la factura, retornar un 404
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Collections.emptyList());
         }
     }
 }

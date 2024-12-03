@@ -1,21 +1,40 @@
 package com.ITechNovate.asr_backend.models_sql;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
 @Table(name = "detalle_factura")
+
 public class DetalleFactura {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "factura_id")
-    private Integer facturaId;
+    @Column(name = "id")
+    private Integer id;
 
     @Column(name = "fecha_entrega", nullable = false)
     @Temporal(TemporalType.DATE)
     private Date fechaEntrega;
+
+    @Column(name = "fecha_vencimiento", nullable = false)
+    @Temporal(TemporalType.DATE)
+    private Date fechaVencimiento;
+
+    @Column(name = "estatus", nullable = false)
+    @Enumerated(EnumType.STRING) // Si es un enum
+    private Estatus estatus;
+
+    public void setFacturaId(Integer facturaId) {
+        this.factura = new Factura();
+        factura.setId(facturaId);
+    }
+
+    public enum Estatus {
+        en_progreso, pagada, vencida;
+    }
 
     @Column(name = "credito")
     private Integer credito;
@@ -25,9 +44,12 @@ public class DetalleFactura {
     private Date fechaPortal;
 
     // Relación con Factura (Muchos a Uno)
+    @Setter
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "factura_id", insertable = false, updatable = false)
+    @JoinColumn(name = "factura_id", nullable = false)
+    @JsonIgnore // Evita que la relación se serialice
     private Factura factura;
+
 
     public DetalleFactura(Integer facturaId, Date fechaEntrega, Integer credito, Date fechaPortal, Factura factura) {
         this.facturaId = facturaId;
@@ -40,9 +62,7 @@ public class DetalleFactura {
     public DetalleFactura() {
     }
 
-    public Integer getFacturaId() {
-        return facturaId;
-    }
+
 
     public void setFacturaId(Integer facturaId) {
         this.facturaId = facturaId;
@@ -80,3 +100,12 @@ public class DetalleFactura {
         this.factura = factura;
     }
 }
+
+    public Integer getFacturaId() {
+        return factura != null ? factura.getId() : null;
+    }
+    
+
+}
+
+
