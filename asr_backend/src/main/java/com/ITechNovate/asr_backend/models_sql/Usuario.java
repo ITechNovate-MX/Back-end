@@ -1,32 +1,22 @@
 package com.ITechNovate.asr_backend.models_sql;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.AllArgsConstructor;
 
 @Entity
 @Table(name = "usuario")
-@Data // Anotacion de Lombok para generar los Getters y Setters y otros métodos automáticamente
-@NoArgsConstructor
-@AllArgsConstructor
 public class Usuario {
-    @Getter
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
 
-    @Getter
     @Column(name = "correo", length = 100, nullable = false)
     private String correo;
 
-    @Getter
     @Column(name = "contraseña", length = 100, nullable = false)
     private String contrasena;
 
-    @Getter
     @Column(name = "rol", nullable = false)
     @Enumerated(EnumType.STRING)
     private Rol rol ;
@@ -35,4 +25,48 @@ public class Usuario {
         admin, invitado;
 
     }
+
+    public Usuario(Integer id, String correo, String contrasena, Rol rol) {
+        this.id = id;
+        this.correo = correo;
+        this.contrasena = contrasena;
+        this.rol = rol;
+    }
+
+    public Usuario() {
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getCorreo() {
+        return correo;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public String getContrasena() {
+        return contrasena;
+    }
+
+    public void setContrasena(String contrasena) {
+        this.contrasena = contrasena;
+    }
+
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
+    }
 }
+
+

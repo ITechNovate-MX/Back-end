@@ -1,5 +1,6 @@
 package com.ITechNovate.asr_backend.config;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -39,13 +40,13 @@ public class SecurityConfig {
                         authorizationServer
                                 .oidc(Customizer.withDefaults())	// Enable OpenID Connect 1.0
                 )
-                // Redirect to the login page when not authenticated from the
-                // authorization endpoint
+                // Devolver 401 Unauthorized en lugar de redirigir al login
                 .exceptionHandling((exceptions) -> exceptions
-                        .defaultAuthenticationEntryPointFor(
-                                new LoginUrlAuthenticationEntryPoint("/login"),
-                                new MediaTypeRequestMatcher(MediaType.TEXT_HTML)
-                        )
+                        .authenticationEntryPoint((request, response, authException) -> {
+                            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                            response.setContentType("application/json");
+                            response.getWriter().write("{\"error\": \"Unauthorized\"}");
+                        })
                 );
 
         return http.build();
