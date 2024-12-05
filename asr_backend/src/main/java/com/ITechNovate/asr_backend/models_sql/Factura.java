@@ -1,4 +1,5 @@
 package com.ITechNovate.asr_backend.models_sql;
+
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -8,17 +9,20 @@ import java.util.List;
 @Entity
 @Table(name = "factura")
 public class Factura {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "folio")
     private Integer folio;
 
-    @Column(name= "fecha_emision", nullable = false)
+    @Column(name = "fecha_emision", nullable = false)
+    @Temporal(TemporalType.DATE)
     private Date fechaEmision;
 
-    @Column(name= "cliente", length = 100, nullable = false)
+    @Column(name = "cliente", length = 100, nullable = false)
     private String cliente;
 
-    @Column(name= "orden_compra", length = 50)
+    @Column(name = "orden_compra", length = 50)
     private String ordenCompra;
 
     @Column(name = "subtotal", precision = 10, scale = 2, nullable = false)
@@ -33,31 +37,26 @@ public class Factura {
     @Column(name = "archivo_xml")
     private String archivoXml;
 
-    // Relacion con la tabla DetalleFactura
     @OneToMany(mappedBy = "factura", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DetalleFactura> detalleFactura;
 
-    public Factura(Integer folio, Date fechaEmision, String cliente, String ordenCompra, String noParte, String descripcion, BigDecimal cantidad, BigDecimal precioUnitario, BigDecimal importe, BigDecimal subtotal, BigDecimal iva, BigDecimal total, String metodoPago, String archivoXml, List<DetalleFactura> detalleFactura) {
+    // Constructores
+    public Factura() {
+    }
+
+    public Factura(Integer folio, Date fechaEmision, String cliente, String ordenCompra, BigDecimal subtotal, BigDecimal total, String metodoPago, String archivoXml, List<DetalleFactura> detalleFactura) {
         this.folio = folio;
         this.fechaEmision = fechaEmision;
         this.cliente = cliente;
         this.ordenCompra = ordenCompra;
-        this.noParte = noParte;
-        this.descripcion = descripcion;
-        this.cantidad = cantidad;
-        this.precioUnitario = precioUnitario;
-        this.importe = importe;
         this.subtotal = subtotal;
-        this.iva = iva;
         this.total = total;
         this.metodoPago = metodoPago;
         this.archivoXml = archivoXml;
         this.detalleFactura = detalleFactura;
     }
 
-    public Factura() {
-    }
-
+    // Getters y Setters
     public Integer getFolio() {
         return folio;
     }
@@ -90,60 +89,12 @@ public class Factura {
         this.ordenCompra = ordenCompra;
     }
 
-    public String getNoParte() {
-        return noParte;
-    }
-
-    public void setNoParte(String noParte) {
-        this.noParte = noParte;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public BigDecimal getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(BigDecimal cantidad) {
-        this.cantidad = cantidad;
-    }
-
-    public BigDecimal getPrecioUnitario() {
-        return precioUnitario;
-    }
-
-    public void setPrecioUnitario(BigDecimal precioUnitario) {
-        this.precioUnitario = precioUnitario;
-    }
-
-    public BigDecimal getImporte() {
-        return importe;
-    }
-
-    public void setImporte(BigDecimal importe) {
-        this.importe = importe;
-    }
-
     public BigDecimal getSubtotal() {
         return subtotal;
     }
 
     public void setSubtotal(BigDecimal subtotal) {
         this.subtotal = subtotal;
-    }
-
-    public BigDecimal getIva() {
-        return iva;
-    }
-
-    public void setIva(BigDecimal iva) {
-        this.iva = iva;
     }
 
     public BigDecimal getTotal() {
@@ -174,15 +125,21 @@ public class Factura {
         return detalleFactura;
     }
 
-
     public void setDetalleFactura(List<DetalleFactura> detalleFactura) {
         this.detalleFactura = detalleFactura;
+    }
+
+    public void addDetalleFactura(DetalleFactura detalle) {
+        this.detalleFactura.add(detalle);
+        detalle.setFactura(this);
+    }
+
+    public void removeDetalleFactura(DetalleFactura detalle) {
+        this.detalleFactura.remove(detalle);
+        detalle.setFactura(null);
+    }
 
     public Integer getId() {
         return folio;
-    }
-
-    public void setId(Integer facturaId) {
-
     }
 }
