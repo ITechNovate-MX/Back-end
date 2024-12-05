@@ -57,15 +57,16 @@ public class DetalleFacturaService {
         return detalleFacturaRepository.save(detalleFactura);
     }
 
-
     public DetalleFacturaDTO updateDetalleFactura(Integer id, DetalleFacturaDTO detalleFacturaDTO) {
         DetalleFactura existing = detalleFacturaRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("DetalleFactura no encontrado con id: " + id));
+
         existing.setFechaEntrega(detalleFacturaDTO.getFechaEntrega());
         existing.setFechaVencimiento(detalleFacturaDTO.getFechaVencimiento());
         existing.setEstatus(DetalleFactura.Estatus.valueOf(detalleFacturaDTO.getEstatus()));
         existing.setCredito(detalleFacturaDTO.getCredito());
         existing.setFechaPortal(detalleFacturaDTO.getFechaPortal());
+
         DetalleFactura updated = detalleFacturaRepository.save(existing);
         return convertToDTO(updated);
     }
@@ -73,7 +74,7 @@ public class DetalleFacturaService {
     private DetalleFacturaDTO convertToDTO(DetalleFactura detalleFactura) {
         DetalleFacturaDTO dto = new DetalleFacturaDTO();
         dto.setId(detalleFactura.getId());
-        dto.setFacturaId(detalleFactura.getFactura().getId());
+        dto.setFacturaId(detalleFactura.getFacturaId()); // Cambio aquí
         dto.setFechaEntrega(detalleFactura.getFechaEntrega());
         dto.setFechaVencimiento(detalleFactura.getFechaVencimiento());
         dto.setEstatus(detalleFactura.getEstatus().name());
@@ -84,12 +85,18 @@ public class DetalleFacturaService {
 
     private DetalleFactura convertToEntity(DetalleFacturaDTO dto) {
         DetalleFactura entity = new DetalleFactura();
-        entity.setFacturaId(dto.getFacturaId());
+
+        // Buscar la factura en el repositorio
+        Factura factura = facturaRepository.findById(dto.getFacturaId())
+                .orElseThrow(() -> new RuntimeException("Factura no encontrada con ID: " + dto.getFacturaId()));
+
+        entity.setFactura(factura); // Asignar la factura
         entity.setFechaEntrega(dto.getFechaEntrega());
         entity.setFechaVencimiento(dto.getFechaVencimiento());
         entity.setEstatus(DetalleFactura.Estatus.valueOf(dto.getEstatus()));
         entity.setCredito(dto.getCredito());
         entity.setFechaPortal(dto.getFechaPortal());
+
         return entity;
     }
 }
