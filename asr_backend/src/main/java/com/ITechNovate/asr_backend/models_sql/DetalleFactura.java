@@ -1,19 +1,20 @@
 package com.ITechNovate.asr_backend.models_sql;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "detalle_factura")
-
+@Table(name = "detallefactura")
 public class DetalleFactura {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private Integer id;
+
+    @ManyToOne
+    @JoinColumn(name = "factura_id", nullable = false) // Nombre de la columna en la base de datos
+    private Factura factura;
 
     @Column(name = "fecha_entrega", nullable = false)
     @Temporal(TemporalType.DATE)
@@ -24,17 +25,8 @@ public class DetalleFactura {
     private Date fechaVencimiento;
 
     @Column(name = "estatus", nullable = false)
-    @Enumerated(EnumType.STRING) // Si es un enum
+    @Enumerated(EnumType.STRING)
     private Estatus estatus;
-
-    public void setFacturaId(Integer facturaId) {
-        this.factura = new Factura();
-        factura.setId(facturaId);
-    }
-
-    public enum Estatus {
-        en_progreso, pagada, vencida;
-    }
 
     @Column(name = "credito")
     private Integer credito;
@@ -43,29 +35,28 @@ public class DetalleFactura {
     @Temporal(TemporalType.DATE)
     private Date fechaPortal;
 
-    // Relación con Factura (Muchos a Uno)
-    @Setter
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "factura_id", nullable = false)
-    @JsonIgnore // Evita que la relación se serialice
-    private Factura factura;
+    // Enum para estatus
+    public enum Estatus {
+        EN_PROGRESO,
+        VENCIDA,
+        PAGADA
+    }
 
+    // Getters y Setters
+    public Integer getId() {
+        return id;
+    }
 
-    public DetalleFactura(Integer facturaId, Date fechaEntrega, Integer credito, Date fechaPortal, Factura factura) {
-        this.facturaId = facturaId;
-        this.fechaEntrega = fechaEntrega;
-        this.credito = credito;
-        this.fechaPortal = fechaPortal;
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Factura getFactura() {
+        return factura;
+    }
+
+    public void setFactura(Factura factura) {
         this.factura = factura;
-    }
-
-    public DetalleFactura() {
-    }
-
-
-
-    public void setFacturaId(Integer facturaId) {
-        this.facturaId = facturaId;
     }
 
     public Date getFechaEntrega() {
@@ -74,6 +65,22 @@ public class DetalleFactura {
 
     public void setFechaEntrega(Date fechaEntrega) {
         this.fechaEntrega = fechaEntrega;
+    }
+
+    public Date getFechaVencimiento() {
+        return fechaVencimiento;
+    }
+
+    public void setFechaVencimiento(Date fechaVencimiento) {
+        this.fechaVencimiento = fechaVencimiento;
+    }
+
+    public Estatus getEstatus() {
+        return estatus;
+    }
+
+    public void setEstatus(Estatus estatus) {
+        this.estatus = estatus;
     }
 
     public Integer getCredito() {
@@ -92,20 +99,7 @@ public class DetalleFactura {
         this.fechaPortal = fechaPortal;
     }
 
-    public Factura getFactura() {
-        return factura;
-    }
-
-    public void setFactura(Factura factura) {
-        this.factura = factura;
-    }
-}
-
     public Integer getFacturaId() {
         return factura != null ? factura.getId() : null;
     }
-    
-
 }
-
-
