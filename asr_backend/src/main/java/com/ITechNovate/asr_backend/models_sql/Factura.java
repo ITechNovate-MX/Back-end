@@ -11,7 +11,6 @@ import java.util.List;
 public class Factura {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "folio")
     private Integer folio;
 
@@ -141,5 +140,8 @@ public class Factura {
 
     public Integer getId() {
         return folio;
+    }
+
+    public void setId(Integer facturaId) {
     }
 }

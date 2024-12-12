@@ -7,14 +7,10 @@ import java.util.Date;
 @Entity
 @Table(name = "detallefactura")
 public class DetalleFactura {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Integer id;
-
-    @ManyToOne
-    @JoinColumn(name = "factura_id", nullable = false) // Nombre de la columna en la base de datos
-    private Factura factura;
 
     @Column(name = "fecha_entrega", nullable = false)
     @Temporal(TemporalType.DATE)
@@ -25,8 +21,17 @@ public class DetalleFactura {
     private Date fechaVencimiento;
 
     @Column(name = "estatus", nullable = false)
-    @Enumerated(EnumType.STRING)
+    @Enumerated(EnumType.STRING) // Si es un enum
     private Estatus estatus;
+
+    public void setFacturaId(Integer facturaId) {
+        this.factura = new Factura();
+        factura.setId(facturaId);
+    }
+
+    public enum Estatus {
+        en_progreso, pagada, vencida;
+    }
 
     @Column(name = "credito")
     private Integer credito;
@@ -35,12 +40,11 @@ public class DetalleFactura {
     @Temporal(TemporalType.DATE)
     private Date fechaPortal;
 
-    // Enum para estatus
-    public enum Estatus {
-        EN_PROGRESO,
-        VENCIDA,
-        PAGADA
-    }
+    // Relación con Factura (Muchos a Uno)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "factura_id", nullable = false)
+    @JsonIgnore // Evita que la relación se serialice
+    private Factura factura;
 
     // Getters y Setters
     public Integer getId() {
