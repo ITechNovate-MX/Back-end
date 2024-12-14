@@ -30,7 +30,7 @@ public class DetalleFactura {
     }
 
     public enum Estatus {
-        en_progreso, pagada, vencida;
+        en_progreso, pagada, vencida, pendiente;
     }
 
     @Column(name = "credito")
