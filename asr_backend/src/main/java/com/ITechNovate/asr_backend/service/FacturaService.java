@@ -169,7 +169,7 @@ public class FacturaService {
             }
 
             // Convertir a DTO y retornar
-            return new FacturaDTO(factura.getFolio(), factura.getCliente(), factura.getOrdenCompra(),
+            return new FacturaDTO(factura.getFolio(), factura.getFechaEmision(), factura.getCliente(), factura.getOrdenCompra(),
                     factura.getSubtotal(), factura.getTotal(), factura.getMetodoPago(), factura.getArchivoXml());
 
         } catch (Exception e) {
@@ -195,6 +195,7 @@ public class FacturaService {
         Factura updatedFactura = facturaRepository.save(factura);
         return new FacturaDTO(
                 updatedFactura.getFolio(),
+                updatedFactura.getFechaEmision(),
                 updatedFactura.getCliente(),
                 updatedFactura.getOrdenCompra(),
                 updatedFactura.getSubtotal(),
@@ -209,6 +210,7 @@ public class FacturaService {
         return facturaRepository.findAll().stream()
                 .map(factura -> new FacturaDTO(
                         factura.getFolio(),
+                        factura.getFechaEmision(),
                         factura.getCliente(),
                         factura.getOrdenCompra(),
                         factura.getSubtotal(),
@@ -225,6 +227,7 @@ public class FacturaService {
                 .orElseThrow(() -> new RuntimeException("Factura no encontrada"));
         return new FacturaDTO(
                 factura.getFolio(),
+                factura.getFechaEmision(),
                 factura.getCliente(),
                 factura.getOrdenCompra(),
                 factura.getSubtotal(),

@@ -1,9 +1,11 @@
 package com.ITechNovate.asr_backend.dto;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class FacturaDTO {
     Integer folio;
+    Date fechaEmision;
     String cliente;
     String ordenCompra;
     BigDecimal subtotal;
@@ -11,8 +13,9 @@ public class FacturaDTO {
     String metodoPago;
     String archivoXml; // Nombre del archivo XML que el admin sube
 
-    public FacturaDTO(Integer folio, String cliente, String ordenCompra, BigDecimal subtotal, BigDecimal total, String metodoPago, String archivoXml) {
+    public FacturaDTO(Integer folio, Date fechaEmision, String cliente, String ordenCompra, BigDecimal subtotal, BigDecimal total, String metodoPago, String archivoXml) {
         this.folio = folio;
+        this.fechaEmision = fechaEmision;
         this.cliente = cliente;
         this.ordenCompra = ordenCompra;
         this.subtotal = subtotal;
@@ -30,6 +33,14 @@ public class FacturaDTO {
 
     public void setFolio(Integer folio) {
         this.folio = folio;
+    }
+
+    public Date getFechaEmision() {
+        return fechaEmision;
+    }
+
+    public void setFechaEmision(Date fechaEmision) {
+        this.fechaEmision = fechaEmision;
     }
 
     public String getCliente() {
