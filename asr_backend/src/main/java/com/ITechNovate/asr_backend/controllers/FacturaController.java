@@ -17,6 +17,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collections;
 import java.util.List;
@@ -113,4 +114,22 @@ public class FacturaController {
                     .body(Collections.emptyList());
         }
     }
+
+    @DeleteMapping("/{folio}")
+    @Operation(summary = "Eliminar una Factura por Folio",
+            description = "Elimina una Factura utilizando su Folio.")
+    @ApiResponse(responseCode = "204", description = "Factura eliminada con éxito")
+    @ApiResponse(responseCode = "404", description = "Factura no encontrada")
+    public ResponseEntity<Void> deleteFactura(@PathVariable Integer folio) {
+        facturaRepository.findById(folio).ifPresentOrElse(
+                factura -> {
+                    facturaRepository.delete(factura);
+                },
+                () -> {
+                    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Factura no encontrada");
+                }
+        );
+        return ResponseEntity.noContent().build();
+    }
+
 }

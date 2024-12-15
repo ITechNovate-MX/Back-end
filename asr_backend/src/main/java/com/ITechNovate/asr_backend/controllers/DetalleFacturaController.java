@@ -2,6 +2,7 @@ package com.ITechNovate.asr_backend.controllers;
 
 import com.ITechNovate.asr_backend.dto.DetalleFacturaDTO;
 import com.ITechNovate.asr_backend.models_sql.DetalleFactura;
+import com.ITechNovate.asr_backend.repository.DetalleFacturaRepository;
 import com.ITechNovate.asr_backend.service.DetalleFacturaService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -22,6 +24,7 @@ public class DetalleFacturaController {
 
     @Autowired
     private DetalleFacturaService detalleFacturaService;
+    private DetalleFacturaRepository detalleFacturaRepository;
 
     @Operation(summary = "Obtener todos los Detalles de Factura",
             description = "Devuelve una lista de todos los Detalles de Factura almacenados en la base de datos.")
@@ -85,4 +88,19 @@ public class DetalleFacturaController {
         }
         return ResponseEntity.ok(detalles);
     }
+
+    @DeleteMapping("/factura/{facturaId}")
+    @Operation(summary = "Eliminar Detalles de Factura por facturaId",
+            description = "Elimina todos los Detalles de Factura asociados a una Factura específica.")
+    @ApiResponse(responseCode = "204", description = "Detalles de Factura eliminados con éxito")
+    @ApiResponse(responseCode = "404", description = "No se encontraron Detalles de Factura para la Factura especificada")
+    public ResponseEntity<Void> deleteDetalleFacturaByFacturaId(@PathVariable Integer facturaId) {
+        List<DetalleFactura> detalles = detalleFacturaRepository.findByFactura_Id(facturaId);
+        if (detalles.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No se encontraron Detalles de Factura para el facturaId: " + facturaId);
+        }
+        detalleFacturaRepository.deleteAll(detalles);
+        return ResponseEntity.noContent().build();
+    }
+
 }
