@@ -40,6 +40,10 @@ public class DetalleFactura {
     @Temporal(TemporalType.DATE)
     private Date fechaPortal;
 
+    @Column(name = "tipo_cambio")
+    private Float tipoCambio;
+
+
     // Relación con Factura (Muchos a Uno)
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "factura_id", nullable = false)
@@ -106,4 +110,8 @@ public class DetalleFactura {
     public Integer getFacturaId() {
         return factura != null ? factura.getId() : null;
     }
+
+    public Float getTipoCambio() { return tipoCambio; }
+
+    public void setTipoCambio(Float tipoCambio) { this.tipoCambio = tipoCambio; }
 }
