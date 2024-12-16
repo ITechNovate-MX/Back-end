@@ -9,14 +9,16 @@ public class DetalleFacturaDTO {
     private String estatus;
     private Integer credito;
     private Date fechaPortal;
+    private Float TipoCambio;
 
-    public DetalleFacturaDTO(Integer facturaId, Date fechaEntrega, Date fechaVencimiento, String estatus, Integer credito, Date fechaPortal) {
+    public DetalleFacturaDTO(Integer facturaId, Date fechaEntrega, Date fechaVencimiento, String estatus, Integer credito, Date fechaPortal, Float TipoCambio) {
         this.facturaId = facturaId;
         this.fechaEntrega = fechaEntrega;
         this.fechaVencimiento = fechaVencimiento;
         this.estatus = estatus;
         this.credito = credito;
         this.fechaPortal = fechaPortal;
+        this.TipoCambio = TipoCambio;
     }
 
     public DetalleFacturaDTO() {
@@ -72,4 +74,6 @@ public class DetalleFacturaDTO {
 
     public void setId(Integer id) {
     }
+    public Float getTipoCambio(){ return TipoCambio; }
+    public void setTipoCambio(Float TipoCambio){ this.TipoCambio = TipoCambio; }
 }

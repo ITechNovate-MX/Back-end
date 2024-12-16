@@ -53,6 +53,7 @@ public class DetalleFacturaService {
         detalleFactura.setEstatus(DetalleFactura.Estatus.valueOf(detalleFacturaDTO.getEstatus()));
         detalleFactura.setCredito(detalleFacturaDTO.getCredito());
         detalleFactura.setFechaPortal(detalleFacturaDTO.getFechaPortal());
+        detalleFactura.setTipoCambio(detalleFacturaDTO.getTipoCambio());
 
         return detalleFacturaRepository.save(detalleFactura);
     }
@@ -66,6 +67,7 @@ public class DetalleFacturaService {
         existing.setEstatus(DetalleFactura.Estatus.valueOf(detalleFacturaDTO.getEstatus()));
         existing.setCredito(detalleFacturaDTO.getCredito());
         existing.setFechaPortal(detalleFacturaDTO.getFechaPortal());
+        existing.setTipoCambio(detalleFacturaDTO.getTipoCambio());
 
         DetalleFactura updated = detalleFacturaRepository.save(existing);
         return convertToDTO(updated);
@@ -80,6 +82,7 @@ public class DetalleFacturaService {
         dto.setEstatus(detalleFactura.getEstatus().name());
         dto.setCredito(detalleFactura.getCredito());
         dto.setFechaPortal(detalleFactura.getFechaPortal());
+        dto.setTipoCambio(detalleFactura.getTipoCambio());
         return dto;
     }
 
@@ -96,6 +99,7 @@ public class DetalleFacturaService {
         entity.setEstatus(DetalleFactura.Estatus.valueOf(dto.getEstatus()));
         entity.setCredito(dto.getCredito());
         entity.setFechaPortal(dto.getFechaPortal());
+        entity.setTipoCambio(dto.getTipoCambio());
 
         return entity;
     }

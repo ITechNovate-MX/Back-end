@@ -45,7 +45,7 @@ public class FacturaService {
             InputStream inputStream = file.getInputStream();
             Document document = builder.parse(inputStream);
 
-            // Extraer los valores desde el XML
+// Extraer los valores desde el XML
             NodeList comprobanteList = document.getElementsByTagName("cfdi:Comprobante");
             if (comprobanteList.getLength() > 0) {
                 Element comprobanteElement = (Element) comprobanteList.item(0);
@@ -71,7 +71,12 @@ public class FacturaService {
                 // Obtener método de pago
                 String metodoPago = comprobanteElement.getAttribute("MetodoPago");
                 factura.setMetodoPago(metodoPago != null && !metodoPago.isEmpty() ? metodoPago : "No especificado");
+
+                // Obtener moneda
+                String moneda = comprobanteElement.getAttribute("Moneda");
+                factura.setMoneda(moneda != null && !moneda.isEmpty() ? moneda : "N/A");
             }
+
 
             // Extraer datos del receptor (cliente)
             NodeList receptorList = document.getElementsByTagName("cfdi:Receptor");
@@ -170,7 +175,7 @@ public class FacturaService {
 
             // Convertir a DTO y retornar
             return new FacturaDTO(factura.getFolio(), factura.getFechaEmision(), factura.getCliente(), factura.getOrdenCompra(),
-                    factura.getSubtotal(), factura.getTotal(), factura.getMetodoPago(), factura.getArchivoXml());
+                    factura.getSubtotal(), factura.getTotal(), factura.getMetodoPago(), factura.getArchivoXml(), factura.getMoneda());
 
         } catch (Exception e) {
             System.err.println("Error al procesar el archivo XML: " + e.getMessage());
@@ -201,7 +206,8 @@ public class FacturaService {
                 updatedFactura.getSubtotal(),
                 updatedFactura.getTotal(),
                 updatedFactura.getMetodoPago(),
-                updatedFactura.getArchivoXml()
+                updatedFactura.getArchivoXml(),
+                updatedFactura.getMoneda()
         );
     }
 
@@ -216,7 +222,8 @@ public class FacturaService {
                         factura.getSubtotal(),
                         factura.getTotal(),
                         factura.getMetodoPago(),
-                        factura.getArchivoXml()
+                        factura.getArchivoXml(),
+                        factura.getMoneda()
                 ))
                 .collect(Collectors.toList());
     }
@@ -233,7 +240,8 @@ public class FacturaService {
                 factura.getSubtotal(),
                 factura.getTotal(),
                 factura.getMetodoPago(),
-                factura.getArchivoXml()
+                factura.getArchivoXml(),
+                factura.getMoneda()
         );
     }
 }
