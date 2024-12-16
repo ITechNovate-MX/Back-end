@@ -6,6 +6,7 @@ import java.util.Date;
 public class FacturaDTO {
     Integer folio;
     Date fechaEmision;
+    String moneda;
     String cliente;
     String ordenCompra;
     BigDecimal subtotal;
@@ -13,7 +14,7 @@ public class FacturaDTO {
     String metodoPago;
     String archivoXml; // Nombre del archivo XML que el admin sube
 
-    public FacturaDTO(Integer folio, Date fechaEmision, String cliente, String ordenCompra, BigDecimal subtotal, BigDecimal total, String metodoPago, String archivoXml) {
+    public FacturaDTO(Integer folio, Date fechaEmision, String cliente, String ordenCompra, BigDecimal subtotal, BigDecimal total, String metodoPago, String archivoXml, String moneda) {
         this.folio = folio;
         this.fechaEmision = fechaEmision;
         this.cliente = cliente;
@@ -22,6 +23,7 @@ public class FacturaDTO {
         this.total = total;
         this.metodoPago = metodoPago;
         this.archivoXml = archivoXml;
+        this.moneda = moneda;
     }
 
     public FacturaDTO() {
@@ -89,5 +91,13 @@ public class FacturaDTO {
 
     public void setArchivoXml(String archivoXml) {
         this.archivoXml = archivoXml;
+    }
+
+    public String getMoneda() {
+        return moneda;
+    }
+
+    public void setMoneda(String moneda) {
+        this.moneda = moneda;
     }
 }

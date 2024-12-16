@@ -39,11 +39,15 @@ public class Factura {
     @OneToMany(mappedBy = "factura", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<DetalleFactura> detalleFactura;
 
+    @Column(name = "moneda", length = 10)
+    private String moneda;
+
+
     // Constructores
     public Factura() {
     }
 
-    public Factura(Integer folio, Date fechaEmision, String cliente, String ordenCompra, BigDecimal subtotal, BigDecimal total, String metodoPago, String archivoXml, List<DetalleFactura> detalleFactura) {
+    public Factura(Integer folio, Date fechaEmision, String cliente, String ordenCompra, BigDecimal subtotal, BigDecimal total, String metodoPago, String archivoXml, List<DetalleFactura> detalleFactura, String moneda) {
         this.folio = folio;
         this.fechaEmision = fechaEmision;
         this.cliente = cliente;
@@ -53,6 +57,7 @@ public class Factura {
         this.metodoPago = metodoPago;
         this.archivoXml = archivoXml;
         this.detalleFactura = detalleFactura;
+        this.moneda = moneda;
     }
 
     // Getters y Setters
@@ -143,5 +148,13 @@ public class Factura {
     }
 
     public void setId(Integer facturaId) {
+    }
+
+    public String getMoneda() {
+        return moneda;
+    }
+
+    public void setMoneda(String moneda) {
+        this.moneda = moneda;
     }
 }
