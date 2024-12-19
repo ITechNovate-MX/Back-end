@@ -59,7 +59,6 @@ public class DetalleFacturaController {
     @ApiResponse(responseCode = "400", description = "Datos inválidos para la creación del Detalle de Factura")
     @PostMapping("/save")
     public ResponseEntity<DetalleFactura> saveDetalleFactura(@RequestBody DetalleFacturaDTO detalleFacturaDTO) {
-        System.out.println("Datos recibidos: " + detalleFacturaDTO);
         DetalleFactura savedDetalleFactura = detalleFacturaService.saveDetalleFactura(detalleFacturaDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedDetalleFactura);
     }
