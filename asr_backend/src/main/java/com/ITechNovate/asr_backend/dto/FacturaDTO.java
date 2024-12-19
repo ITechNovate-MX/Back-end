@@ -1,11 +1,16 @@
 package com.ITechNovate.asr_backend.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
 public class FacturaDTO {
     Integer folio;
+
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ssXXX") // Incluir zona horaria
     Date fechaEmision;
+
     String moneda;
     String cliente;
     String ordenCompra;

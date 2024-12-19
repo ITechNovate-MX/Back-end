@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -58,6 +59,7 @@ public class DetalleFacturaController {
     @ApiResponse(responseCode = "400", description = "Datos inválidos para la creación del Detalle de Factura")
     @PostMapping("/save")
     public ResponseEntity<DetalleFactura> saveDetalleFactura(@RequestBody DetalleFacturaDTO detalleFacturaDTO) {
+        System.out.println("Datos recibidos: " + detalleFacturaDTO);
         DetalleFactura savedDetalleFactura = detalleFacturaService.saveDetalleFactura(detalleFacturaDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedDetalleFactura);
     }
