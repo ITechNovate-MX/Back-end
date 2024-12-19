@@ -1,27 +1,29 @@
 package com.ITechNovate.asr_backend.dto;
 
-import java.util.Date;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.time.OffsetDateTime;
 
 public class DetalleFacturaDTO {
     private Integer facturaId;
-    private Date fechaEntrega;
-    private Date fechaVencimiento;
+    private OffsetDateTime fechaEntrega;
+    private OffsetDateTime fechaVencimiento;
+    private OffsetDateTime fechaPortal;
     private String estatus;
     private Integer credito;
-    private Date fechaPortal;
-    private Float TipoCambio;
+    private Float tipoCambio;
 
-    public DetalleFacturaDTO(Integer facturaId, Date fechaEntrega, Date fechaVencimiento, String estatus, Integer credito, Date fechaPortal, Float TipoCambio) {
+    public DetalleFacturaDTO() {
+    }
+
+    public DetalleFacturaDTO(Integer facturaId, OffsetDateTime fechaEntrega, OffsetDateTime fechaVencimiento, OffsetDateTime fechaPortal, String estatus, Integer credito, Float tipoCambio) {
         this.facturaId = facturaId;
         this.fechaEntrega = fechaEntrega;
         this.fechaVencimiento = fechaVencimiento;
+        this.fechaPortal = fechaPortal;
         this.estatus = estatus;
         this.credito = credito;
-        this.fechaPortal = fechaPortal;
-        this.TipoCambio = TipoCambio;
-    }
-
-    public DetalleFacturaDTO() {
+        this.tipoCambio = tipoCambio;
     }
 
     public Integer getFacturaId() {
@@ -32,22 +34,21 @@ public class DetalleFacturaDTO {
         this.facturaId = facturaId;
     }
 
-    public Date getFechaEntrega() {
+    public OffsetDateTime getFechaEntrega() {
         return fechaEntrega;
     }
 
-    public void setFechaEntrega(Date fechaEntrega) {
+    public void setFechaEntrega(OffsetDateTime fechaEntrega) {
         this.fechaEntrega = fechaEntrega;
     }
 
-    public Date getFechaVencimiento() {
+    public OffsetDateTime getFechaVencimiento() {
         return fechaVencimiento;
     }
 
-    public void setFechaVencimiento(Date fechaVencimiento) {
+    public void setFechaVencimiento(OffsetDateTime fechaVencimiento) {
         this.fechaVencimiento = fechaVencimiento;
     }
-
     public String getEstatus() {
         return estatus;
     }
@@ -64,16 +65,16 @@ public class DetalleFacturaDTO {
         this.credito = credito;
     }
 
-    public Date getFechaPortal() {
+    public OffsetDateTime getFechaPortal() {
         return fechaPortal;
     }
 
-    public void setFechaPortal(Date fechaPortal) {
+    public void setFechaPortal(OffsetDateTime fechaPortal) {
         this.fechaPortal = fechaPortal;
     }
 
     public void setId(Integer id) {
     }
-    public Float getTipoCambio(){ return TipoCambio; }
-    public void setTipoCambio(Float TipoCambio){ this.TipoCambio = TipoCambio; }
+    public Float getTipoCambio(){ return tipoCambio; }
+    public void setTipoCambio(Float TipoCambio){ this.tipoCambio = TipoCambio; }
 }

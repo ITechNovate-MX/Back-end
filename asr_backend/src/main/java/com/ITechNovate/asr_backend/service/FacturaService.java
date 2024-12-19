@@ -61,6 +61,9 @@ public class FacturaService {
                 // Obtener fecha de emisión
                 String fechaStr = comprobanteElement.getAttribute("Fecha");
                 SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+
+                // Asegurar que la fecha tenga zona horaria explícita
+                dateFormat.setTimeZone(java.util.TimeZone.getTimeZone("UTC")); // Configurar UTC
                 Date fechaEmision = dateFormat.parse(fechaStr);
                 factura.setFechaEmision(fechaEmision);
 

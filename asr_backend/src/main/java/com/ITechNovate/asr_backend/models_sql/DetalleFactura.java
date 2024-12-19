@@ -2,6 +2,8 @@ package com.ITechNovate.asr_backend.models_sql;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.time.OffsetDateTime;
 import java.util.Date;
 
 @Entity
@@ -13,12 +15,10 @@ public class DetalleFactura {
     private Integer id;
 
     @Column(name = "fecha_entrega", nullable = false)
-    @Temporal(TemporalType.DATE)
-    private Date fechaEntrega;
+    private OffsetDateTime fechaEntrega;
 
     @Column(name = "fecha_vencimiento", nullable = false)
-    @Temporal(TemporalType.DATE)
-    private Date fechaVencimiento;
+    private OffsetDateTime fechaVencimiento;
 
     @Column(name = "estatus", nullable = false)
     @Enumerated(EnumType.STRING) // Si es un enum
@@ -37,8 +37,7 @@ public class DetalleFactura {
     private Integer credito;
 
     @Column(name = "fecha_portal")
-    @Temporal(TemporalType.DATE)
-    private Date fechaPortal;
+    private OffsetDateTime fechaPortal;
 
     @Column(name = "tipo_cambio")
     private Float tipoCambio;
@@ -51,6 +50,7 @@ public class DetalleFactura {
     private Factura factura;
 
     // Getters y Setters
+
     public Integer getId() {
         return id;
     }
@@ -59,27 +59,19 @@ public class DetalleFactura {
         this.id = id;
     }
 
-    public Factura getFactura() {
-        return factura;
-    }
-
-    public void setFactura(Factura factura) {
-        this.factura = factura;
-    }
-
-    public Date getFechaEntrega() {
+    public OffsetDateTime getFechaEntrega() {
         return fechaEntrega;
     }
 
-    public void setFechaEntrega(Date fechaEntrega) {
+    public void setFechaEntrega(OffsetDateTime fechaEntrega) {
         this.fechaEntrega = fechaEntrega;
     }
 
-    public Date getFechaVencimiento() {
+    public OffsetDateTime getFechaVencimiento() {
         return fechaVencimiento;
     }
 
-    public void setFechaVencimiento(Date fechaVencimiento) {
+    public void setFechaVencimiento(OffsetDateTime fechaVencimiento) {
         this.fechaVencimiento = fechaVencimiento;
     }
 
@@ -99,19 +91,27 @@ public class DetalleFactura {
         this.credito = credito;
     }
 
-    public Date getFechaPortal() {
+    public OffsetDateTime getFechaPortal() {
         return fechaPortal;
     }
 
-    public void setFechaPortal(Date fechaPortal) {
+    public void setFechaPortal(OffsetDateTime fechaPortal) {
         this.fechaPortal = fechaPortal;
     }
 
-    public Integer getFacturaId() {
-        return factura != null ? factura.getId() : null;
+    public Float getTipoCambio() {
+        return tipoCambio;
     }
 
-    public Float getTipoCambio() { return tipoCambio; }
+    public void setTipoCambio(Float tipoCambio) {
+        this.tipoCambio = tipoCambio;
+    }
 
-    public void setTipoCambio(Float tipoCambio) { this.tipoCambio = tipoCambio; }
+    public Factura getFactura() {
+        return factura;
+    }
+
+    public void setFactura(Factura factura) {
+        this.factura = factura;
+    }
 }

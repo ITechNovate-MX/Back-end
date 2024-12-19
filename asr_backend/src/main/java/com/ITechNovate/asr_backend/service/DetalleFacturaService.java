@@ -76,7 +76,7 @@ public class DetalleFacturaService {
     private DetalleFacturaDTO convertToDTO(DetalleFactura detalleFactura) {
         DetalleFacturaDTO dto = new DetalleFacturaDTO();
         dto.setId(detalleFactura.getId());
-        dto.setFacturaId(detalleFactura.getFacturaId()); // Cambio aquí
+        dto.setFacturaId(detalleFactura.getFactura().getId()); // Cambio aquí
         dto.setFechaEntrega(detalleFactura.getFechaEntrega());
         dto.setFechaVencimiento(detalleFactura.getFechaVencimiento());
         dto.setEstatus(detalleFactura.getEstatus().name());
