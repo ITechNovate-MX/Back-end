@@ -17,10 +17,9 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.InputStream;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 @Service
@@ -96,24 +95,47 @@ public class FacturaService {
 
                 String descripcion = conceptoElement.getAttribute("Descripcion");
                 if (descripcion != null && !descripcion.isEmpty()) {
-                    // Buscar el índice de "ORDEN DE COMPRA"
-                    int indexOrden = descripcion.indexOf("ORDEN DE COMPRA");
-                    if (indexOrden != -1) {
-                        // Extraer desde "ORDEN DE COMPRA" hasta el final de la cadena
-                        String ordenCompra = descripcion.substring(indexOrden);
+                    // Reemplazar caracteres no deseados y normalizar
+                    descripcion = descripcion.replaceAll("&#xA;", "\n").replaceAll("[\\n\\t\\r]+", " ").trim();
+                    System.out.println("Descripción después de limpieza: " + descripcion);
 
-                        // Limpiar caracteres no deseados (saltos de línea, etc.)
-                        ordenCompra = ordenCompra.replaceAll("[\\n\\t\\r&#xA;]", "").trim();
+                    String ordenCompra = null;
 
-                        // Asignar la orden de compra completa
-                        factura.setOrdenCompra(ordenCompra);
+                    // Buscar "ORDEN DE COMPRA" o "OC" seguido de un valor
+                    Pattern pattern = Pattern.compile("(ORDEN DE COMPRA|OC)\\s*([a-zA-Z0-9-/]+)");
+                    Matcher matcher = pattern.matcher(descripcion);
+
+                    if (matcher.find()) {
+                        ordenCompra = matcher.group(2).trim(); // Extraer el valor después de "ORDEN DE COMPRA" o "OC"
                     } else {
-                        // Si no se encuentra, establecer un valor predeterminado
+                        // Si no se encontró un prefijo válido, buscar después de "\n"
+                        int indexA = descripcion.indexOf("\n");
+                        if (indexA != -1) {
+                            // Extraer texto después del primer salto de línea
+                            String afterA = descripcion.substring(indexA + 1).trim();
+                            String[] palabras = afterA.split(" ");
+                            if (palabras.length > 0) {
+                                ordenCompra = palabras[0].trim(); // Tomar la primera palabra después de "\n"
+                            }
+                        }
+                    }
+
+                    // Limitar longitud a 100 caracteres (o lo que permita tu columna)
+                    if (ordenCompra != null && !ordenCompra.isEmpty()) {
+                        int maxLength = 100; // Cambiar según la longitud permitida en la base de datos
+                        if (ordenCompra.length() > maxLength) {
+                            ordenCompra = ordenCompra.substring(0, maxLength).trim();
+                        }
+                        factura.setOrdenCompra(ordenCompra);
+                        System.out.println("Orden de compra detectada: " + ordenCompra);
+                    } else {
                         factura.setOrdenCompra("No especificado");
+                        System.out.println("No se encontró un formato válido para la orden de compra.");
                     }
                 } else {
                     factura.setOrdenCompra("No especificado");
                 }
+
             }
 
             // Guardar factura solo si no existe
