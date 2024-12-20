@@ -58,10 +58,12 @@ public class DetalleFacturaService {
         return detalleFacturaRepository.save(detalleFactura);
     }
 
-    public DetalleFacturaDTO updateDetalleFactura(Integer id, DetalleFacturaDTO detalleFacturaDTO) {
-        DetalleFactura existing = detalleFacturaRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("DetalleFactura no encontrado con id: " + id));
+    public DetalleFacturaDTO updateDetalleFacturaByFolio(Integer folio, DetalleFacturaDTO detalleFacturaDTO) {
+        // Buscar el detalleFactura asociado al folio
+        DetalleFactura existing = detalleFacturaRepository.findByFacturaFolio(folio)
+                .orElseThrow(() -> new RuntimeException("DetalleFactura no encontrado para el folio: " + folio));
 
+        // Actualizar los campos relevantes
         existing.setFechaEntrega(detalleFacturaDTO.getFechaEntrega());
         existing.setFechaVencimiento(detalleFacturaDTO.getFechaVencimiento());
         existing.setEstatus(DetalleFactura.Estatus.valueOf(detalleFacturaDTO.getEstatus()));
@@ -69,7 +71,10 @@ public class DetalleFacturaService {
         existing.setFechaPortal(detalleFacturaDTO.getFechaPortal());
         existing.setTipoCambio(detalleFacturaDTO.getTipoCambio());
 
+        // Guardar los cambios
         DetalleFactura updated = detalleFacturaRepository.save(existing);
+
+        // Convertir y retornar el DTO actualizado
         return convertToDTO(updated);
     }
 
