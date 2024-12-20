@@ -68,15 +68,19 @@ public class DetalleFacturaController {
     @ApiResponse(responseCode = "200", description = "Detalle de Factura actualizado con éxito",
             content = @Content(mediaType = "application/json", schema = @Schema(implementation = DetalleFacturaDTO.class)))
     @ApiResponse(responseCode = "404", description = "Detalle de Factura no encontrado")
-    @PutMapping("/{id}")
-    public ResponseEntity<DetalleFacturaDTO> updateDetalleFactura(@PathVariable Integer id, @RequestBody DetalleFacturaDTO detalleFacturaDTO) {
+    @PutMapping("/{folio}")
+    public ResponseEntity<DetalleFacturaDTO> updateDetalleFacturaByFolio(
+            @PathVariable Integer folio,
+            @RequestBody DetalleFacturaDTO detalleFacturaDTO) {
         try {
-            DetalleFacturaDTO updatedDetalleFactura = detalleFacturaService.updateDetalleFactura(id, detalleFacturaDTO);
+            DetalleFacturaDTO updatedDetalleFactura = detalleFacturaService.updateDetalleFacturaByFolio(folio, detalleFacturaDTO);
             return ResponseEntity.ok(updatedDetalleFactura);
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
     }
+
+
     @Operation(summary = "Obtener detalles de factura por folio",
             description = "Devuelve todos los detalles de factura asociados a un folio de factura.")
     @ApiResponse(responseCode = "200", description = "Detalles de factura encontrados")
