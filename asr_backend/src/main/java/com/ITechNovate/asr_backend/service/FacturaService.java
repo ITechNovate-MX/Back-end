@@ -102,7 +102,7 @@ public class FacturaService {
                     String ordenCompra = null;
 
                     // Buscar "ORDEN DE COMPRA" o "OC" seguido de un valor
-                    Pattern pattern = Pattern.compile("(ORDEN DE COMPRA|OC)\\s*([a-zA-Z0-9-/]+)");
+                    Pattern pattern = Pattern.compile("(ORDEN DE COMPRA|OC|O.C.)\\s*([a-zA-Z0-9-/]+)");
                     Matcher matcher = pattern.matcher(descripcion);
 
                     if (matcher.find()) {
